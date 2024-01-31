@@ -1,0 +1,48 @@
+package Aplicacao;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import dominio.Pessoa;
+
+public class Programa {
+
+	public static void main(String[] args) {
+
+		/*
+		Pessoa p1 = new Pessoa(null, "Carlinhos", "carlos@outlook.com"); 
+		Pessoa p2 = new Pessoa(null, "Fernando", "fernando@outlook.com");
+		Pessoa p3 = new Pessoa(null, "Amanda", "amanda@gmail.com");
+		*/
+		
+		//Conexão com o banco de dados
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
+		EntityManager em = emf.createEntityManager();
+		
+		//Iniciando uma Transação com o BD
+		em.getTransaction().begin();
+
+		//CRIANDO UM USUÁRIO
+		Pessoa p1 = new Pessoa(null, "IgorTeste", "igorteste@gmail.com");
+		em.persist(p1);
+		
+		//BUSCANDO UMA PESSOAS DO BD
+		Pessoa p = em.find(Pessoa.class, 2);
+		System.out.println(p);
+		System.out.println("Pronto!");
+		
+		//EXCLUINDO UMA PESSOA DO BD
+		Pessoa p4 = em.find(Pessoa.class, 3);
+		em.remove(p4);
+		em.getTransaction().commit();
+		System.out.println("Excluido!");
+		
+		em.close();
+		emf.close();
+		
+		
+	}
+
+}
